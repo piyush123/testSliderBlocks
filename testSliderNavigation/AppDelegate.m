@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "MainViewController.h"
+#import "MenuViewController.h"
+#import "TweetsViewController.h"
 
 @interface AppDelegate ()
             
@@ -19,6 +22,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    TweetsViewController *tweets_vc = [[TweetsViewController alloc] init];
+    MenuViewController  *menu_vc = [[MenuViewController alloc] init];
+    MainViewController  *main_vc = [[MainViewController alloc] init];
+    
+    [main_vc addViewController:menu_vc];
+    [main_vc addViewController:tweets_vc];
+    
+    self.window.rootViewController = main_vc;
+    
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
