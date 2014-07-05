@@ -8,9 +8,18 @@
 
 #import "MenuViewController.h"
 
+
+// Convenience typedef for button callback block.
+typedef void(^ButtonBlock)(UIControl *);
+
 @interface MenuViewController ()
 
+@property (nonatomic, strong) UIButton *myButton;
+@property (nonatomic, strong) UIButton *button;
+
+
 @end
+
 
 @implementation MenuViewController
 
@@ -27,7 +36,30 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.view addSubview:button];
+    
+    [button setTitle:@"Press Me" forState:UIControlStateNormal];
+    [button sizeToFit];
+    
+    button.center = CGPointMake(100, 250);
+    
+
+    [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
+
+- (void)buttonPressed:(UIControl *)button {
+    if (_buttonCallback) {
+        NSLog(@"in callback");
+        _buttonCallback(button);
+    } else {
+        NSLog(@"Button pressed with no callback block, %@.", _button);
+    }
+}
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -46,4 +78,6 @@
 }
 */
 
+    - (IBAction)myButton:(id)sender {
+    }
 @end

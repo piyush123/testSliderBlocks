@@ -27,6 +27,13 @@
     MenuViewController  *menu_vc = [[MenuViewController alloc] init];
     MainViewController  *main_vc = [[MainViewController alloc] init];
     
+    UINavigationController *uvc = [[UINavigationController alloc] initWithRootViewController:main_vc];
+    
+    uvc.navigationBar.barTintColor =[UIColor colorWithRed:5/255.0f green:6/255.0f blue:206/255.0f alpha:1.0f];
+    uvc.navigationBar.alpha = 0.50;
+    uvc.navigationBar.translucent = NO;
+    
+    
     [main_vc addViewController:menu_vc];
     [main_vc addViewController:tweets_vc];
     

@@ -7,6 +7,9 @@
 //
 
 #import "MainViewController.h"
+#import "MenuViewController.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
+#import "RACEXTScope.h"
 
 #define kSlideMargin 66
 
@@ -16,30 +19,17 @@
 @property (nonatomic, strong) NSMutableArray  *viewControllers;
 
 @property (nonatomic, strong) UIViewController *tweet_vc;
-@property (nonatomic, strong) UIViewController *menu_vc;
-
-
+@property (nonatomic, strong) MenuViewController *menu_vc;
+@property (nonatomic, strong) MenuViewController *menuViewController;
 @end
-
 
 @implementation MainViewController
 
-
-
 - (IBAction)onPan:(UIPanGestureRecognizer *)sender {
-    
-    NSLog(@"got pan");
-    
-   
-    
     
     UIView *childView = self.tweet_vc.view;
     
-    
-    
     CGPoint velocity = [sender velocityInView:self.view];
-    
-    
     
     CGPoint translate = [sender translationInView:self.view];
     
@@ -48,8 +38,6 @@
     newFrame.origin.x += translate.x;
     
     newFrame.origin.y += translate.y;
-    
-    
     
     //self.touched.frame = newFrame;
     
@@ -63,32 +51,19 @@
         
     } else if (sender.state == UIGestureRecognizerStateChanged) {
         
-        
-        
-        
-        
     } else if (sender.state == UIGestureRecognizerStateEnded) {
-        
-        
-        
-        
-        
+     
         //childView.frame = CGRectMake(childView.frame.size.width-kSlideMargin, 0, childView.frame.size.width, childView.frame.size.height);
         
         if (velocity.x >= 20) {
-            
-            
-            
-            [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:5 options:0 animations:^{
+          [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:5 options:0 animations:^{
                 
                 if (velocity.x >= 20) {
                     
                     //view.center = leftPoint;
                     
                     childView.frame = CGRectMake(childView.frame.size.width-kSlideMargin, 0, childView.frame.size.width, childView.frame.size.height);
-                    
-                    
-                    
+        
                 }
                 
             } completion:nil];
@@ -136,7 +111,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    [self addMenu];
     self.menu_vc = self.viewControllers[0];
     self.tweet_vc = self.viewControllers[1];
     
@@ -146,10 +121,25 @@
     [self.contentView addSubview:firstview];
     [self.contentView addSubview:secondview];
     
-    
-    
+   // MenuViewController *menuviewController = [[MenuViewController alloc]init];
+    [self addMenu];
 }
 
+- (void)addMenu
+{
+
+    @weakify(self);
+    _menu_vc.buttonCallback = ^(UIControl *button) {
+        @strongify(self);
+        [self logMessage];
+        NSLog(@" here 2");
+    };
+}
+
+- (void)logMessage
+{
+     NSLog(@"here 1");
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
